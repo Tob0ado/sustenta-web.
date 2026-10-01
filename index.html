@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUSTENTAtec</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f2f7f3;
+            color: #1f3d2b;
+        }
+
+        header {
+            background: #1f6f43;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 35px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            font-size: 16px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 850px;
+            margin: 35px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #1f6f43;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 7px;
+            font-weight: bold;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #b7cdbd;
+            border-radius: 8px;
+            font-size: 15px;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            background: #1f6f43;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #155631;
+        }
+
+        #resultado {
+            display: none;
+            background: #e5f3e9;
+            border-left: 5px solid #1f6f43;
+        }
+
+        #resultado h2 {
+            margin-bottom: 15px;
+        }
+
+        .resultado-item {
+            margin: 12px 0;
+            line-height: 1.5;
+        }
+
+        .materiales {
+            padding-left: 20px;
+            margin-top: 8px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #557060;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>SUSTENTAtec</h1>
+        <p>Empaques sustentables diseñados para las necesidades de tu empresa</p>
+    </header>
+
+    <div class="container">
+
+        <div class="card">
+            <h2>Diseña tu empaque sustentable</h2>
+
+            <label for="producto">¿Qué producto necesitas empacar?</label>
+            <input 
+                type="text" 
+                id="producto" 
+                placeholder="Ejemplo: alimentos, ropa, productos electrónicos"
+            >
+
+            <label for="tamano">Tamaño del empaque</label>
+            <input 
+                type="text" 
+                id="tamano" 
+                placeholder="Ejemplo: 30 x 20 x 10 cm"
+            >
+
+            <label for="durabilidad">Durabilidad requerida</label>
+            <select id="durabilidad">
+                <option value="">Selecciona una opción</option>
+                <option value="baja">Baja</option>
+                <option value="media">Media</option>
+                <option value="alta">Alta</option>
+            </select>
+
+            <label for="objetivo">¿Cuál es el objetivo principal del empaque?</label>
+            <textarea 
+                id="objetivo" 
+                placeholder="Ejemplo: proteger el producto durante el transporte y reducir el uso de plástico"
+            ></textarea>
+
+            <button onclick="generarPropuesta()">
+                Generar propuesta sustentable
+            </button>
+        </div>
+
+
+        <div class="card" id="resultado">
+            <h2>Propuesta de SUSTENTAtec</h2>
+
+            <div class="resultado-item">
+                <strong>Producto:</strong>
+                <span id="resProducto"></span>
+            </div>
+
+            <div class="resultado-item">
+                <strong>Tamaño:</strong>
+                <span id="resTamano"></span>
+            </div>
+
+            <div class="resultado-item">
+                <strong>Tipo de empaque recomendado:</strong>
+                <span id="resTipo"></span>
+            </div>
+
+            <div class="resultado-item">
+                <strong>Materiales sugeridos:</strong>
+                <ul class="materiales" id="resMateriales"></ul>
+            </div>
+
+            <div class="resultado-item">
+                <strong>Durabilidad:</strong>
+                <span id="resDurabilidad"></span>
+            </div>
+
+            <div class="resultado-item">
+                <strong>Beneficio ambiental:</strong>
+                <span id="resBeneficio"></span>
+            </div>
+
+            <div class="resultado-item">
+                <strong>Objetivo:</strong>
+                <span id="resObjetivo"></span>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        SUSTENTAtec — Tecnología e innovación para un futuro más sustentable.
+    </footer>
+
+
+    <script>
+
+        function generarPropuesta() {
+
+            // Obtener información del usuario
+            let producto = document.getElementById("producto").value;
+            let tamano = document.getElementById("tamano").value;
+            let durabilidad = document.getElementById("durabilidad").value;
+            let objetivo = document.getElementById("objetivo").value;
+
+            // Validar que todos los campos estén llenos
+            if (producto === "" || tamano === "" || durabilidad === "" || objetivo === "") {
+                alert("Por favor, completa todos los campos.");
+                return;
+            }
+
+            // Determinar materiales y tipo de empaque
+            let tipo;
+            let materiales;
+            let beneficio;
+
+            if (durabilidad === "alta") {
+
+                tipo = "Empaque biodegradable reforzado";
+
+                materiales = [
+                    "Cartón reciclado de alta resistencia",
+                    "Fibras de celulosa",
+                    "Biopolímeros de origen vegetal"
+                ];
+
+                beneficio = "Reduce el uso de plásticos convencionales y puede ser diseñado para facilitar su reciclaje o biodegradación.";
+
+            } else if (durabilidad === "media") {
+
+                tipo = "Empaque biodegradable flexible";
+
+                materiales = [
+                    "Cartón reciclado",
+                    "Celulosa",
+                    "Biopolímeros de origen vegetal"
+                ];
+
+                beneficio = "Disminuye la cantidad de materiales no biodegradables utilizados en el empaque.";
+
+            } else {
+
+                tipo = "Empaque biodegradable ligero";
+
+                materiales = [
+                    "Papel reciclado",
+                    "Celulosa",
+                    "Fibras vegetales"
+                ];
+
+                beneficio = "Utiliza materiales de menor impacto ambiental y reduce la dependencia de empaques plásticos.";
+
+            }
+
+            // Mostrar información
+            document.getElementById("resProducto").textContent = producto;
+            document.getElementById("resTamano").textContent = tamano;
+            document.getElementById("resTipo").textContent = tipo;
+            document.getElementById("resDurabilidad").textContent = durabilidad;
+            document.getElementById("resBeneficio").textContent = beneficio;
+            document.getElementById("resObjetivo").textContent = objetivo;
+
+            // Crear lista de materiales
+            let listaMateriales = document.getElementById("resMateriales");
+
+            listaMateriales.innerHTML = "";
+
+            materiales.forEach(function(material) {
+                let elemento = document.createElement("li");
+                elemento.textContent = material;
+                listaMateriales.appendChild(elemento);
+            });
+
+            // Mostrar resultado
+            document.getElementById("resultado").style.display = "block";
+
+            // Llevar al usuario al resultado
+            document.getElementById("resultado").scrollIntoView({
+                behavior: "smooth"
+            });
+        }
+
+    </script>
+
+</body>
+</html>
